@@ -1,12 +1,14 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
+DROP TABLE IF EXISTS knowledge_documents;
+
 CREATE TABLE IF NOT EXISTS knowledge_documents (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     title TEXT NOT NULL,
     source_file TEXT,
     content TEXT NOT NULL,
     chunk_index INTEGER NOT NULL,
-    embedding VECTOR(768),          -- text-embedding-004 outputs 768-dim
+    embedding VECTOR(768),          -- gemini-embedding-2 outputs 3072-dim, truncated to 768
     metadata JSONB DEFAULT '{}',
     created_at TIMESTAMPTZ DEFAULT now()
 );

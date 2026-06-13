@@ -1,4 +1,5 @@
 from google import genai
+from google.genai import types
 from app.config import settings
 
 _genai_client = None
@@ -15,7 +16,8 @@ def get_embedding(text: str) -> list[float]:
     try:
         response = client.models.embed_content(
             model=settings.EMBEDDING_MODEL,
-            contents=text
+            contents=text,
+            config=types.EmbedContentConfig(output_dimensionality=settings.EMBEDDING_DIMENSIONS)
         )
         return response.embeddings[0].values
     except Exception as e:
@@ -30,7 +32,8 @@ def get_embeddings_batch(texts: list[str]) -> list[list[float]]:
     try:
         response = client.models.embed_content(
             model=settings.EMBEDDING_MODEL,
-            contents=texts
+            contents=texts,
+            config=types.EmbedContentConfig(output_dimensionality=settings.EMBEDDING_DIMENSIONS)
         )
         return [emb.values for emb in response.embeddings]
     except Exception as e:
