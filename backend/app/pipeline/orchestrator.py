@@ -103,7 +103,7 @@ class PipelineOrchestrator:
                     None,
                     retrieve_relevant_guidelines,
                     search_query,
-                    0.60, # Cosine similarity threshold
+                    0.50, # Cosine similarity threshold
                     5     # Retrieve top-5
                 )
 
