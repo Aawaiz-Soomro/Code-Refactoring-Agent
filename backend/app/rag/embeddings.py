@@ -30,12 +30,15 @@ def get_embeddings_batch(texts: list[str]) -> list[list[float]]:
         return []
     client = get_genai_client()
     try:
-        response = client.models.embed_content(
-            model=settings.EMBEDDING_MODEL,
-            contents=texts,
-            config=types.EmbedContentConfig(output_dimensionality=settings.EMBEDDING_DIMENSIONS)
-        )
-        return [emb.values for emb in response.embeddings]
+        embeddings = []
+        for text in texts:
+            response = client.models.embed_content(
+                model=settings.EMBEDDING_MODEL,
+                contents=text,
+                config=types.EmbedContentConfig(output_dimensionality=settings.EMBEDDING_DIMENSIONS)
+            )
+            embeddings.append(response.embeddings[0].values)
+        return embeddings
     except Exception as e:
         print(f"Error generating batch embeddings: {e}")
         raise
