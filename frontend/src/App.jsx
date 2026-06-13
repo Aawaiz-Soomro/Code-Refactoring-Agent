@@ -105,7 +105,7 @@ export default function App() {
   const isRunning = status === 'running';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#050508] text-[#f3f4f6]">
+    <div className="min-h-screen flex flex-col bg-[var(--bg-main)] text-[var(--text-primary)] relative z-0">
       {/* Premium Header */}
       <Header />
 
@@ -161,19 +161,19 @@ export default function App() {
       </main>
 
       {/* Status Bar Footer */}
-      <footer className="w-full py-2 px-6 border-t border-[rgba(255,255,255,0.06)] bg-[#07070a] flex items-center justify-between text-[10px] text-gray-500 font-medium select-none shrink-0">
-        <div className="flex items-center gap-2.5">
-          <span className="flex items-center gap-1">
-            <span className={`w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400'}`}></span>
-            Status: {isRunning ? 'Running' : status === 'complete' ? 'Completed' : 'Idle'}
+      <footer className="w-full py-2 px-6 border-t-2 border-[var(--border-main)] bg-[var(--bg-card)] flex items-center justify-between text-xs text-[var(--text-secondary)] font-bold font-mono select-none shrink-0 uppercase tracking-tight z-10 relative">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-none border border-black ${isRunning ? 'bg-[var(--color-rag)] animate-[mechanical-blink_1s_steps(2,end)_infinite]' : 'bg-[var(--color-architect)]'}`}></span>
+            STATUS: {isRunning ? 'PROCESSING...' : status === 'complete' ? 'READY' : 'IDLE'}
           </span>
           {events.length > 0 && (
-            <span className="text-gray-600">| Session active</span>
+            <span className="text-[var(--text-muted)]">| SESSION ACTIVE</span>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <Info className="w-3.5 h-3.5 text-gray-600" />
-          <span>Powered by Gemini 2.5 Flash & text-embedding-004</span>
+          <Info className="w-4 h-4 text-[var(--border-main)]" />
+          <span>SYS.GEMINI_FLASH_2.5 // VEC.EMBED_2</span>
         </div>
       </footer>
     </div>

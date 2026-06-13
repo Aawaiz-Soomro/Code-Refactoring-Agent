@@ -2,7 +2,7 @@ import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
-import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { githubLight } from '@uiw/codemirror-theme-github';
 
 export default function CodeEditor({ value, onChange, language = 'python', readOnly = false }) {
   const getLanguageExtension = () => {
@@ -16,12 +16,12 @@ export default function CodeEditor({ value, onChange, language = 'python', readO
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col rounded-xl overflow-hidden border border-[rgba(255,255,255,0.06)] bg-[#0d0d15]/50 backdrop-blur-md">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]">
-        <span className="text-xs font-semibold text-gray-400 select-none">
+    <div className="brutalist-panel w-full flex-1 flex flex-col rounded-none overflow-hidden shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 border-b-2 border-[var(--border-main)] bg-[var(--bg-main)]">
+        <span className="text-[10px] font-black text-[var(--text-secondary)] select-none uppercase tracking-widest">
           {readOnly ? 'READ ONLY OUTPUT' : 'SOURCE CODE INPUT'}
         </span>
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-white/5 border border-white/10 text-violet-400 tracking-wide uppercase select-none">
+        <span className="text-[10px] font-black px-2 py-0.5 bg-[var(--text-primary)] text-[var(--bg-main)] tracking-widest uppercase select-none">
           {language}
         </span>
       </div>
@@ -31,7 +31,7 @@ export default function CodeEditor({ value, onChange, language = 'python', readO
           value={value}
           height="100%"
           extensions={getLanguageExtension()}
-          theme={vscodeDark}
+          theme={githubLight}
           onChange={onChange}
           readOnly={readOnly}
           className="h-full border-0 focus:outline-none"

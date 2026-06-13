@@ -6,7 +6,6 @@ export default function LiveTerminal({ events = [] }) {
   const terminalEndRef = useRef(null);
 
   useEffect(() => {
-    // Smooth auto-scroll
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [events]);
 
@@ -30,90 +29,91 @@ export default function LiveTerminal({ events = [] }) {
     switch (event) {
       case 'session_start':
         return (
-          <div key={idx} className="border-b border-white/5 pb-2 mb-2">
-            <span className="text-violet-400 font-bold">[{timeStr}] PIPELINE INITIALIZED</span>
-            <span className="text-gray-400 block text-xs mt-1">Session ID: {data.session_id} | Max Loops: {data.max_loops}</span>
+          <div key={idx} className="border-b-2 border-[var(--border-main)] pb-2 mb-2">
+            <span className="text-[var(--text-primary)] font-black">[{timeStr}] PIPELINE INITIALIZED</span>
+            <span className="text-[var(--text-secondary)] block mt-1 font-bold">Session ID: {data.session_id} | Max Loops: {data.max_loops}</span>
           </div>
         );
       case 'iteration_start':
         return (
-          <div key={idx} className="my-2 border-y border-white/5 py-1 text-center bg-white/2 select-none">
-            <span className="text-gray-400 font-bold tracking-widest text-[10px]">LOOP ITERATION #{data.iteration}</span>
+          <div key={idx} className="my-2 border-y-2 border-[var(--border-main)] py-1 text-center bg-[var(--bg-panel)] select-none">
+            <span className="text-[var(--text-secondary)] font-black tracking-widest text-[10px] uppercase">LOOP ITERATION #{data.iteration}</span>
           </div>
         );
       case 'architect_working':
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
-            <span className="text-gray-600 text-xs shrink-0 select-none">[{timeStr}]</span>
+            <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
             <AgentBadge agent="architect" active />
-            <span className="text-gray-300 italic text-xs animate-pulse">Designing architecture optimizations...</span>
+            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Designing architecture optimizations...</span>
           </div>
         );
       case 'architect_thinking':
         return (
-          <div key={idx} className="flex flex-col gap-1 border-l-2 border-emerald-500/30 pl-3 py-1 my-1">
+          <div key={idx} className="flex flex-col gap-1 border-l-4 border-[var(--color-architect)] pl-3 py-1 my-1 bg-[var(--bg-panel)] border-y-2 border-r-2 border-y-[var(--border-main)] border-r-[var(--border-main)]">
             <div className="flex gap-2 items-center">
-              <span className="text-gray-600 text-xs select-none">[{timeStr}]</span>
+              <span className="text-[var(--text-secondary)] font-bold select-none">[{timeStr}]</span>
               <AgentBadge agent="architect" />
-              <span className="text-emerald-400 text-xs font-bold">Optimized draft ready</span>
+              <span className="text-[var(--color-architect)] bg-black px-1 font-black uppercase">Optimized draft ready</span>
             </div>
-            <p className="text-xs text-gray-300 whitespace-pre-wrap mt-1 font-sans">{data.thought}</p>
+            <p className="text-[var(--text-primary)] whitespace-pre-wrap mt-1 font-medium">{data.thought}</p>
           </div>
         );
       case 'rag_working':
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
-            <span className="text-gray-600 text-xs shrink-0 select-none">[{timeStr}]</span>
+            <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
             <AgentBadge agent="rag" active />
-            <span className="text-gray-300 italic text-xs animate-pulse">Running semantic scan on company brain...</span>
+            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Running semantic scan on company brain...</span>
           </div>
         );
       case 'rag_retrieved':
         return (
-          <div key={idx} className="flex flex-col gap-1 border-l-2 border-amber-500/30 pl-3 py-1 my-1">
+          <div key={idx} className="flex flex-col gap-1 border-l-4 border-[var(--color-rag)] pl-3 py-1 my-1 bg-[var(--bg-panel)] border-y-2 border-r-2 border-y-[var(--border-main)] border-r-[var(--border-main)]">
             <div className="flex gap-2 items-center">
-              <span className="text-gray-600 text-xs select-none">[{timeStr}]</span>
+              <span className="text-[var(--text-secondary)] font-bold select-none">[{timeStr}]</span>
               <AgentBadge agent="rag" />
-              <span className="text-amber-400 text-xs font-bold">Retrieved {data.guidelines?.length || 0} guidelines</span>
+              <span className="text-[var(--color-rag)] bg-[var(--border-main)] px-1 font-black uppercase text-white">Retrieved {data.guidelines?.length || 0} guidelines</span>
             </div>
             {data.guidelines && data.guidelines.length > 0 ? (
-              <ul className="text-[11px] text-gray-400 list-disc list-inside mt-1 font-sans">
+              <ul className="text-[var(--text-secondary)] list-disc list-inside mt-1 font-medium">
                 {data.guidelines.map((g, gIdx) => (
                   <li key={gIdx} className="truncate" title={g.title}>
-                    <span className="font-semibold text-gray-300">{g.title}</span>
-                    <span className="text-[10px] text-amber-500/70 ml-1.5">(cos similarity: {(g.similarity || 0).toFixed(3)})</span>
+                    <span className="font-bold text-[var(--text-primary)]">{g.title}</span>
+                    <span className="text-[var(--color-rag)] font-bold ml-1.5">(cos: {(g.similarity || 0).toFixed(3)})</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <span className="text-[10px] text-gray-500 font-sans mt-0.5">No matching guidelines found above threshold.</span>
+              <span className="text-[var(--text-muted)] font-medium mt-0.5">No matching guidelines found above threshold.</span>
             )}
           </div>
         );
       case 'auditor_working':
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
-            <span className="text-gray-600 text-xs shrink-0 select-none">[{timeStr}]</span>
+            <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
             <AgentBadge agent="auditor" active />
-            <span className="text-gray-300 italic text-xs animate-pulse">Evaluating code vulnerabilities against criteria...</span>
+            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Evaluating code vulnerabilities against criteria...</span>
           </div>
         );
       case 'auditor_thinking':
-        const verdictColor = data.verdict === 'APPROVED' ? 'text-emerald-400' : 'text-red-400';
+        const verdictColor = data.verdict === 'APPROVED' ? 'var(--color-architect)' : 'var(--color-auditor)';
+        const verdictBg = data.verdict === 'APPROVED' ? 'bg-black text-[var(--color-architect)]' : 'bg-[var(--color-auditor)] text-white';
         return (
-          <div key={idx} className={`flex flex-col gap-1 border-l-2 ${data.verdict === 'APPROVED' ? 'border-emerald-500/30' : 'border-red-500/30'} pl-3 py-1 my-1`}>
+          <div key={idx} className={`flex flex-col gap-1 border-l-4 pl-3 py-1 my-1 bg-[var(--bg-panel)] border-y-2 border-r-2 border-y-[var(--border-main)] border-r-[var(--border-main)]`} style={{borderLeftColor: verdictColor}}>
             <div className="flex gap-2 items-center">
-              <span className="text-gray-600 text-xs select-none">[{timeStr}]</span>
+              <span className="text-[var(--text-secondary)] font-bold select-none">[{timeStr}]</span>
               <AgentBadge agent="auditor" />
-              <span className={`${verdictColor} text-xs font-bold`}>Verdict: {data.verdict}</span>
+              <span className={`px-1 font-black uppercase ${verdictBg}`}>Verdict: {data.verdict}</span>
             </div>
-            <p className="text-xs text-gray-300 whitespace-pre-wrap mt-1 font-sans">{data.thought}</p>
+            <p className="text-[var(--text-primary)] whitespace-pre-wrap mt-1 font-medium">{data.thought}</p>
             {data.critique && data.critique.length > 0 && (
               <div className="mt-2 flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-red-400 select-none uppercase">Violations Found:</span>
+                <span className="font-black text-[var(--color-auditor)] select-none uppercase border-b-2 border-[var(--border-main)] inline-block w-max">Violations Found:</span>
                 {data.critique.map((c, cIdx) => (
-                  <div key={cIdx} className="text-[11px] bg-red-500/5 border border-red-500/10 rounded px-2 py-1 font-sans">
-                    <span className="font-semibold text-red-300">[{c.severity.toUpperCase()}] {c.guideline_ref}:</span> {c.issue}
+                  <div key={cIdx} className="bg-[var(--bg-card)] border-2 border-[var(--border-main)] rounded-none px-2 py-1 shadow-[2px_2px_0px_0px_#111111] mb-1">
+                    <span className="font-black text-[var(--color-auditor)]">[{c.severity.toUpperCase()}] {c.guideline_ref}:</span> <span className="font-medium text-[var(--text-primary)]">{c.issue}</span>
                   </div>
                 ))}
               </div>
@@ -122,43 +122,43 @@ export default function LiveTerminal({ events = [] }) {
         );
       case 'approved':
         return (
-          <div key={idx} className="flex items-center gap-2 text-emerald-400 my-2 py-1 border-y border-emerald-500/10 bg-emerald-500/2">
-            <CheckCircle className="w-4 h-4" />
-            <span className="text-xs font-bold uppercase">QA AUDIT PASSED - CODE APPROVED AT ITERATION {data.iteration}</span>
+          <div key={idx} className="flex items-center gap-2 text-[var(--color-architect)] my-2 py-2 px-2 border-2 border-[var(--border-main)] bg-[var(--bg-panel)] shadow-[2px_2px_0px_0px_#111111]">
+            <CheckCircle className="w-5 h-5 text-[var(--color-architect)] stroke-[3px]" />
+            <span className="font-black uppercase tracking-widest">QA AUDIT PASSED - CODE APPROVED AT ITERATION {data.iteration}</span>
           </div>
         );
       case 'rejected':
         return (
-          <div key={idx} className="flex items-center gap-2 text-red-400 my-2 py-1 border-y border-red-500/10 bg-red-500/2">
-            <XCircle className="w-4 h-4" />
-            <span className="text-xs font-bold uppercase">QA AUDIT REJECTED - REVISING FOR ITERATION {data.iteration + 1}...</span>
+          <div key={idx} className="flex items-center gap-2 text-[var(--bg-card)] bg-[var(--color-auditor)] my-2 py-2 px-2 border-2 border-[var(--border-main)] shadow-[2px_2px_0px_0px_#111111]">
+            <XCircle className="w-5 h-5 stroke-[3px]" />
+            <span className="font-black uppercase tracking-widest">QA AUDIT REJECTED - REVISING FOR ITERATION {data.iteration + 1}...</span>
           </div>
         );
       case 'synthesizer_working':
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
-            <span className="text-gray-600 text-xs shrink-0 select-none">[{timeStr}]</span>
+            <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
             <AgentBadge agent="synthesizer" active />
-            <span className="text-gray-300 italic text-xs animate-pulse">Compiling final results & compiling report...</span>
+            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Compiling final results & compiling report...</span>
           </div>
         );
       case 'pipeline_complete':
         return (
-          <div key={idx} className="border-t border-white/5 pt-2 mt-2">
-            <span className="text-blue-400 font-bold">[{timeStr}] PIPELINE COMPLETE</span>
-            <span className="text-gray-400 block text-xs mt-1">
-              Final Verdict: {data.verdict} | Loops Run: {data.iterations}
+          <div key={idx} className="border-t-4 border-[var(--border-main)] pt-2 mt-2 bg-[var(--bg-panel)] p-2 shadow-[2px_2px_0px_0px_#111111]">
+            <span className="text-[var(--color-rag)] font-black uppercase">[{timeStr}] PIPELINE COMPLETE</span>
+            <span className="text-[var(--text-primary)] block font-bold mt-1">
+              Final Verdict: <span className="underline">{data.verdict}</span> | Loops Run: {data.iterations}
             </span>
           </div>
         );
       case 'error':
         return (
-          <div key={idx} className="border border-red-500/20 bg-red-500/10 rounded-lg p-3 my-2 text-red-400 font-sans text-xs">
-            <div className="font-bold flex items-center gap-2 mb-1">
-              <Shield className="w-4 h-4" />
+          <div key={idx} className="border-2 border-[var(--border-main)] bg-[var(--color-auditor)] rounded-none p-3 my-2 text-white shadow-[4px_4px_0px_0px_#111111]">
+            <div className="font-black flex items-center gap-2 mb-1 uppercase tracking-widest text-[var(--bg-card)]">
+              <Shield className="w-5 h-5" />
               <span>PIPELINE ERROR</span>
             </div>
-            <p className="whitespace-pre-wrap">{data.message}</p>
+            <p className="whitespace-pre-wrap font-bold">{data.message}</p>
           </div>
         );
       default:
@@ -167,26 +167,25 @@ export default function LiveTerminal({ events = [] }) {
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col rounded-xl overflow-hidden border border-[rgba(255,255,255,0.06)] bg-[#07070a]/90 backdrop-blur-md">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] select-none">
+    <div className="brutalist-panel w-full flex-1 flex flex-col rounded-none overflow-hidden shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 border-b-2 border-[var(--border-main)] bg-[var(--bg-main)] select-none">
         <div className="flex items-center gap-2">
-          <Terminal className="w-3.5 h-3.5 text-violet-400" />
-          <span className="text-xs font-bold tracking-wide text-gray-400">LIVE COGNITIVE TERMINAL</span>
+          <Terminal className="w-4 h-4 text-[var(--border-main)]" strokeWidth={2.5} />
+          <span className="text-[10px] font-black tracking-widest text-[var(--text-secondary)] uppercase">LIVE COGNITIVE TERMINAL</span>
         </div>
         
-        {/* Active badge indicator */}
         {activeAgent && (
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-gray-500 font-semibold uppercase animate-pulse">Active:</span>
+            <span className="text-[10px] text-[var(--border-main)] font-black tracking-widest uppercase animate-[mechanical-blink_1s_steps(2,end)_infinite]">Active:</span>
             <AgentBadge agent={activeAgent} active />
           </div>
         )}
       </div>
 
-      <div className="flex-1 p-4 font-mono text-left overflow-y-auto max-h-[300px] flex flex-col gap-2.5 text-xs bg-black/40">
+      <div className="flex-1 p-4 font-mono text-left overflow-y-auto max-h-[300px] flex flex-col gap-3 text-[11px] bg-[var(--bg-card)] text-[var(--text-primary)]">
         {events.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center text-gray-600 italic select-none">
-            Terminal idle. Paste raw code and press "Refactor Code" to begin...
+          <div className="flex-1 flex items-center justify-center text-[var(--text-secondary)] font-bold italic select-none">
+            TERMINAL IDLE. PASTE RAW CODE AND PRESS "EXECUTE AUDIT" TO BEGIN.
           </div>
         ) : (
           events.map((evt, idx) => renderEvent(evt, idx))

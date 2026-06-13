@@ -64,14 +64,14 @@ export default function SplitPane({ children }) {
       {/* Resize Handle */}
       <div
         onMouseDown={startResize}
-        className={`w-1 h-full cursor-col-resize hover:w-1.5 transition-all duration-150 relative flex items-center justify-center ${
-          isDragging ? 'bg-violet-500 w-1.5' : 'bg-[rgba(255,255,255,0.06)]'
+        className={`w-2 h-full border-x-2 border-[var(--border-main)] cursor-col-resize hover:bg-[var(--text-primary)] transition-colors duration-100 relative flex items-center justify-center ${
+          isDragging ? 'bg-[var(--text-primary)]' : 'bg-[var(--bg-card)]'
         }`}
       >
-        <div className="absolute top-1/2 -translate-y-1/2 w-3 h-8 bg-zinc-800 border border-[rgba(255,255,255,0.1)] rounded-full flex flex-col gap-0.5 justify-center items-center pointer-events-none opacity-50 group-hover:opacity-100">
-          <span className="w-1 h-1 bg-white rounded-full"></span>
-          <span className="w-1 h-1 bg-white rounded-full"></span>
-          <span className="w-1 h-1 bg-white rounded-full"></span>
+        <div className={`flex flex-col gap-1 pointer-events-none ${isDragging ? 'opacity-0' : 'opacity-100'}`}>
+          <span className="w-1 h-1 bg-[var(--border-main)]"></span>
+          <span className="w-1 h-1 bg-[var(--border-main)]"></span>
+          <span className="w-1 h-1 bg-[var(--border-main)]"></span>
         </div>
       </div>
 

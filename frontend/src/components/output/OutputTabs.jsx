@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileCode, FileText, Bookmark } from 'lucide-react';
+import { FileCode, FileText, Bookmark, Loader2 } from 'lucide-react';
 import RefactoredCode from './RefactoredCode';
 import AuditSummary from './AuditSummary';
 import RagGuidelines from './RagGuidelines';
@@ -14,25 +14,25 @@ export default function OutputTabs({
   const [activeTab, setActiveTab] = useState('code');
 
   const tabs = [
-    { id: 'code', label: 'Refactored Code', icon: FileCode },
-    { id: 'audit', label: 'QA Audit Summary', icon: FileText },
-    { id: 'guidelines', label: 'Applied Guidelines', icon: Bookmark }
+    { id: 'code', label: 'REFACTORED CODE', icon: FileCode },
+    { id: 'audit', label: 'QA AUDIT SUMMARY', icon: FileText },
+    { id: 'guidelines', label: 'APPLIED GUIDELINES', icon: Bookmark }
   ];
 
   const renderTabContent = () => {
     if (status === 'idle') {
       return (
-        <div className="flex-1 flex flex-col items-center justify-center text-gray-500 italic p-8 select-none">
-          No output available yet. Submit code to begin processing...
+        <div className="flex-1 flex flex-col items-center justify-center text-[var(--text-secondary)] italic p-8 select-none font-bold uppercase">
+          Awaiting input source code...
         </div>
       );
     }
     
     if (status === 'running') {
       return (
-        <div className="flex-1 flex flex-col items-center justify-center text-gray-400 p-8 select-none">
-          <div className="w-8 h-8 rounded-full border-2 border-violet-500/20 border-t-violet-500 animate-spin mb-3"></div>
-          <p className="text-xs font-semibold animate-pulse">Auditing code in progress...</p>
+        <div className="flex-1 flex flex-col items-center justify-center text-[var(--text-primary)] p-8 select-none bg-[var(--bg-panel)]">
+          <Loader2 className="w-8 h-8 animate-spin mb-3 text-[var(--text-primary)]" strokeWidth={2.5} />
+          <p className="text-sm font-black uppercase tracking-widest animate-[mechanical-blink_1s_steps(2,end)_infinite]">Compiling Output...</p>
         </div>
       );
     }
@@ -49,9 +49,9 @@ export default function OutputTabs({
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col rounded-xl overflow-hidden border border-[rgba(255,255,255,0.06)] bg-[#0d0d15]/50 backdrop-blur-md">
+    <div className="brutalist-panel w-full flex-1 flex flex-col rounded-none overflow-hidden shrink-0">
       {/* Tab Header Selector */}
-      <div className="flex border-b border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] select-none">
+      <div className="flex border-b-2 border-[var(--border-main)] bg-[var(--bg-main)] select-none">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -59,13 +59,13 @@ export default function OutputTabs({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 text-xs font-semibold border-b-2 cursor-pointer transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 text-[10px] font-black tracking-widest border-r-2 last:border-r-0 border-b-4 cursor-pointer transition-none uppercase ${
                 isActive
-                  ? 'border-violet-500 text-white bg-white/2'
-                  : 'border-transparent text-gray-400 hover:text-white hover:bg-white/1'
+                  ? 'border-b-[var(--border-main)] border-r-[var(--border-main)] text-[var(--bg-card)] bg-[var(--text-primary)]'
+                  : 'border-b-transparent border-r-[var(--border-main)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-panel)]'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4" strokeWidth={2.5} />
               <span>{tab.label}</span>
             </button>
           );
@@ -73,7 +73,7 @@ export default function OutputTabs({
       </div>
 
       {/* Tab Body */}
-      <div className="flex-1 flex flex-col overflow-auto bg-black/10">
+      <div className="flex-1 flex flex-col overflow-auto bg-[var(--bg-card)]">
         {renderTabContent()}
       </div>
     </div>

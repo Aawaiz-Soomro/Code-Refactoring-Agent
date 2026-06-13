@@ -4,39 +4,39 @@ import remarkGfm from 'remark-gfm';
 
 export default function AuditSummary({ summary = '' }) {
   return (
-    <div className="flex-1 p-6 text-left overflow-y-auto max-h-[600px] font-sans">
-      <div className="prose prose-invert max-w-none text-sm leading-relaxed text-gray-300">
+    <div className="flex-1 p-6 text-left overflow-y-auto max-h-[600px] font-mono">
+      <div className="prose prose-sm max-w-none text-[var(--text-primary)]">
         <ReactMarkdown 
           remarkPlugins={[remarkGfm]}
           components={{
-            h1: ({node, ...props}) => <h1 className="text-xl font-bold text-white border-b border-white/10 pb-2 mt-0 mb-4" {...props} />,
-            h2: ({node, ...props}) => <h2 className="text-base font-bold text-white mt-6 mb-2 border-b border-white/5 pb-1" {...props} />,
-            h3: ({node, ...props}) => <h3 className="text-sm font-bold text-violet-400 mt-4 mb-1" {...props} />,
-            p: ({node, ...props}) => <p className="mb-3 text-gray-300 leading-relaxed" {...props} />,
-            ul: ({node, ...props}) => <ul className="list-disc list-inside mb-4 text-gray-300 space-y-1" {...props} />,
-            ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-4 text-gray-300 space-y-1" {...props} />,
-            li: ({node, ...props}) => <li className="text-gray-300" {...props} />,
+            h1: ({node, ...props}) => <h1 className="text-2xl font-black text-[var(--border-main)] border-b-4 border-[var(--border-main)] pb-2 mt-0 mb-6 uppercase tracking-tight" {...props} />,
+            h2: ({node, ...props}) => <h2 className="text-xl font-black text-[var(--border-main)] mt-8 mb-4 border-b-2 border-[var(--border-main)] pb-1 uppercase tracking-tight" {...props} />,
+            h3: ({node, ...props}) => <h3 className="text-base font-bold text-[var(--border-main)] mt-6 mb-2 bg-[var(--bg-panel)] inline-block px-2 py-0.5 uppercase" {...props} />,
+            p: ({node, ...props}) => <p className="mb-4 text-[var(--text-secondary)] font-medium leading-relaxed" {...props} />,
+            ul: ({node, ...props}) => <ul className="list-square list-inside mb-6 text-[var(--text-secondary)] space-y-2 font-medium" {...props} />,
+            ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-6 text-[var(--text-secondary)] space-y-2 font-medium" {...props} />,
+            li: ({node, ...props}) => <li className="text-[var(--text-secondary)] marker:text-[var(--border-main)]" {...props} />,
             code: ({node, inline, className, children, ...props}) => {
               const match = /language-(\w+)/.exec(className || '');
               return !inline ? (
-                <pre className="bg-[#0f0f16]/90 border border-white/5 rounded-lg p-3 my-3 overflow-x-auto font-mono text-xs text-gray-200">
+                <pre className="bg-[var(--bg-card)] border-2 border-[var(--border-main)] rounded-none p-4 my-4 overflow-x-auto font-mono text-xs text-[var(--text-primary)] shadow-[4px_4px_0px_0px_#111111]">
                   <code className={className} {...props}>
                     {children}
                   </code>
                 </pre>
               ) : (
-                <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 font-mono text-xs text-violet-400" {...props}>
+                <code className="bg-[var(--bg-panel)] border border-[var(--border-main)] rounded-none px-1 py-0.5 font-mono text-xs font-bold text-[var(--border-main)]" {...props}>
                   {children}
                 </code>
               );
             },
-            blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-violet-500 bg-violet-500/5 px-4 py-2 my-4 rounded-r italic text-gray-400" {...props} />,
-            table: ({node, ...props}) => <table className="w-full text-left border-collapse border border-white/10 my-4 text-xs" {...props} />,
-            th: ({node, ...props}) => <th className="border border-white/10 bg-white/5 px-3 py-2 font-bold text-white" {...props} />,
-            td: ({node, ...props}) => <td className="border border-white/10 px-3 py-2 text-gray-300" {...props} />,
+            blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-[var(--border-main)] bg-[var(--bg-panel)] px-4 py-3 my-6 font-bold italic text-[var(--text-secondary)]" {...props} />,
+            table: ({node, ...props}) => <table className="w-full text-left border-collapse border-2 border-[var(--border-main)] my-6 text-sm" {...props} />,
+            th: ({node, ...props}) => <th className="border-2 border-[var(--border-main)] bg-[var(--border-main)] px-4 py-2 font-black text-[var(--bg-card)] uppercase tracking-wider" {...props} />,
+            td: ({node, ...props}) => <td className="border-2 border-[var(--border-main)] bg-[var(--bg-card)] px-4 py-2 text-[var(--text-secondary)] font-medium" {...props} />,
           }}
         >
-          {summary || '*No audit summary compiled.*'}
+          {summary || '*NO AUDIT SUMMARY COMPILED.*'}
         </ReactMarkdown>
       </div>
     </div>

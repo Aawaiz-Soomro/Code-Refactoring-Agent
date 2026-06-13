@@ -76,7 +76,7 @@ def ingest_directory():
     
     print(f"Scanning knowledge base directory: {kb_path}")
     if not os.path.exists(kb_path):
-        print(f"⚠️ Directory {kb_path} does not exist. Creating it.")
+        print(f"Directory {kb_path} does not exist. Creating it.")
         os.makedirs(kb_path)
         return
 
@@ -84,7 +84,7 @@ def ingest_directory():
     md_files = [f for f in os.listdir(kb_path) if f.endswith(".md")]
     
     if not md_files:
-        print("⚠️ No markdown files found in the knowledge base directory.")
+        print("No markdown files found in the knowledge base directory.")
         return
 
     for filename in md_files:
@@ -127,9 +127,9 @@ def ingest_directory():
         print(f"Inserting {len(records)} records into Supabase...")
         try:
             supabase.table("knowledge_documents").insert(records).execute()
-            print(f"✅ Successfully ingested {filename}!")
+            print(f"Successfully ingested {filename}!")
         except Exception as e:
-            print(f"❌ Failed to insert records for {filename}: {e}")
+            print(f"Failed to insert records for {filename}: {e}")
 
 if __name__ == "__main__":
     ingest_directory()

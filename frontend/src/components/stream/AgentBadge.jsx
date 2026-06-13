@@ -5,33 +5,28 @@ export default function AgentBadge({ agent, active = false }) {
     switch (agent.toLowerCase()) {
       case 'architect':
         return {
-          bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
-          dot: 'bg-emerald-400',
-          pulse: 'pulse-architect'
+          bg: 'bg-[var(--color-architect)] text-black border-[var(--border-main)]',
+          dot: 'bg-black',
         };
       case 'auditor':
         return {
-          bg: 'bg-red-500/10 border-red-500/20 text-red-400',
-          dot: 'bg-red-400',
-          pulse: 'pulse-auditor'
+          bg: 'bg-[var(--color-auditor)] text-white border-[var(--border-main)]',
+          dot: 'bg-white',
         };
       case 'synthesizer':
         return {
-          bg: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
-          dot: 'bg-blue-400',
-          pulse: 'pulse-synthesizer'
+          bg: 'bg-[var(--color-synthesizer)] text-black border-[var(--border-main)]',
+          dot: 'bg-black',
         };
       case 'rag':
         return {
-          bg: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
-          dot: 'bg-amber-400',
-          pulse: 'pulse-rag'
+          bg: 'bg-[var(--color-rag)] text-white border-[var(--border-main)]',
+          dot: 'bg-white',
         };
       default:
         return {
-          bg: 'bg-gray-500/10 border-gray-500/20 text-gray-400',
-          dot: 'bg-gray-400',
-          pulse: ''
+          bg: 'bg-[var(--bg-main)] text-[var(--text-primary)] border-[var(--border-main)]',
+          dot: 'bg-[var(--border-main)]',
         };
     }
   };
@@ -39,8 +34,8 @@ export default function AgentBadge({ agent, active = false }) {
   const styles = getAgentStyles();
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-bold tracking-wide uppercase select-none ${styles.bg} ${active ? styles.pulse : ''}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${styles.dot} ${active ? 'animate-ping' : ''}`}></span>
+    <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 border-2 text-[10px] font-black tracking-widest uppercase select-none shadow-[1px_1px_0px_0px_#111111] ${styles.bg}`}>
+      <span className={`w-1.5 h-1.5 rounded-none ${styles.dot} ${active ? 'animate-[mechanical-blink_1s_steps(2,end)_infinite]' : ''}`}></span>
       <span>{agent}</span>
     </span>
   );

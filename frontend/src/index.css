@@ -1,25 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @import "tailwindcss";
 
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
   
-  /* Color Palette */
-  --bg-main: #050508;
-  --bg-card: rgba(13, 13, 21, 0.65);
-  --border-glow: rgba(255, 255, 255, 0.05);
-  --border-focus: rgba(124, 58, 237, 0.5);
+  /* Clean Brutalist Light Theme */
+  --bg-main: #f4f4f0;
+  --bg-card: #ffffff;
+  --bg-panel: #ebebe6;
+  --border-main: #111111;
+  --border-focus: #111111;
   
-  --color-architect: #10b981;
-  --color-auditor: #ef4444;
-  --color-synthesizer: #3b82f6;
-  --color-rag: #f59e0b;
+  /* Stark Utility Colors */
+  --color-architect: #00E559;  /* Acid Green */
+  --color-auditor: #FF003C;    /* Danger Red */
+  --color-synthesizer: #FF5500; /* Warning Orange */
+  --color-rag: #0044FF;        /* Electric Blue */
   
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
+  --text-primary: #111111;
+  --text-secondary: #444444;
+  --text-muted: #888888;
 }
 
 body {
@@ -30,88 +32,118 @@ body {
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%);
+  /* subtle dot grid background for technical feel */
+  background-image: radial-gradient(var(--text-muted) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Glassmorphism utility */
-.glass-panel {
+/* Brutalist Panel */
+.brutalist-panel {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glow);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--border-main);
+  box-shadow: 4px 4px 0px 0px var(--border-main);
+  transition: all 0.15s ease-out;
 }
 
-.glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+/* Hard sliding hover effect for buttons */
+.brutalist-btn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid var(--border-main);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 3px 3px 0px 0px var(--border-main);
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+
+.brutalist-btn:hover:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px 0px var(--border-main);
+  background: var(--text-primary);
+  color: var(--bg-card);
+}
+
+.brutalist-btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px 0px var(--border-main);
+}
+
+.brutalist-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: translate(3px, 3px);
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--bg-main);
+  border-left: 2px solid var(--border-main);
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--bg-panel);
+  border-left: 2px solid var(--border-main);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: var(--border-main);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--text-secondary);
 }
 
-/* Agent pulse animations */
-@keyframes pulse-architect {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 12px 2px rgba(16, 185, 129, 0.6); }
+/* Mechanical expanding animation for agent lights */
+@keyframes mechanical-blink {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
 }
 
-@keyframes pulse-auditor {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 0 12px 2px rgba(239, 68, 68, 0.6); }
-}
+.light-architect { animation: mechanical-blink 1s steps(2, end) infinite; background-color: var(--color-architect); }
+.light-auditor { animation: mechanical-blink 1s steps(2, end) infinite; background-color: var(--color-auditor); }
+.light-synthesizer { animation: mechanical-blink 1s steps(2, end) infinite; background-color: var(--color-synthesizer); }
+.light-rag { animation: mechanical-blink 1s steps(2, end) infinite; background-color: var(--color-rag); }
 
-@keyframes pulse-synthesizer {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-  50% { box-shadow: 0 0 12px 2px rgba(59, 130, 246, 0.6); }
-}
-
-@keyframes pulse-rag {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-  50% { box-shadow: 0 0 12px 2px rgba(245, 158, 11, 0.6); }
-}
-
-.pulse-architect { animation: pulse-architect 2s infinite; }
-.pulse-auditor { animation: pulse-auditor 2s infinite; }
-.pulse-synthesizer { animation: pulse-synthesizer 2s infinite; }
-.pulse-rag { animation: pulse-rag 2s infinite; }
-
-/* Custom editor adjustments */
+/* Custom editor adjustments for light brutalist theme */
 .cm-editor {
-  background-color: transparent !important;
+  background-color: var(--bg-card) !important;
   font-family: var(--font-mono) !important;
   font-size: 14px !important;
+  color: var(--text-primary) !important;
 }
 
 .cm-gutters {
-  background-color: transparent !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-  color: var(--text-muted) !important;
+  background-color: var(--bg-panel) !important;
+  border-right: 2px solid var(--border-main) !important;
+  color: var(--text-secondary) !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
 }
 
 .cm-activeLine {
-  background-color: rgba(255, 255, 255, 0.02) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
 .cm-activeLineGutter {
-  background-color: rgba(255, 255, 255, 0.04) !important;
-  color: var(--text-primary) !important;
+  background-color: var(--border-main) !important;
+  color: var(--bg-card) !important;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
 }
