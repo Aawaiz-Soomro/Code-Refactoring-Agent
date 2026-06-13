@@ -22,7 +22,7 @@ export default function LiveTerminal({ events = [] }) {
 
   const activeAgent = getActiveAgent();
 
-  const renderEvent = (evt, idx) => {
+  const renderEvent = (evt, idx, isLast) => {
     const { event, data, timestamp } = evt;
     const timeStr = new Date(timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
@@ -44,8 +44,8 @@ export default function LiveTerminal({ events = [] }) {
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
             <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
-            <AgentBadge agent="architect" active />
-            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Designing architecture optimizations...</span>
+            <AgentBadge agent="architect" active={isLast} />
+            <span className={`text-[var(--text-primary)] italic font-medium ${isLast ? 'animate-[mechanical-blink_1s_steps(2,end)_infinite]' : ''}`}>Designing architecture optimizations...</span>
           </div>
         );
       case 'architect_thinking':
@@ -63,8 +63,8 @@ export default function LiveTerminal({ events = [] }) {
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
             <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
-            <AgentBadge agent="rag" active />
-            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Running semantic scan on company brain...</span>
+            <AgentBadge agent="rag" active={isLast} />
+            <span className={`text-[var(--text-primary)] italic font-medium ${isLast ? 'animate-[mechanical-blink_1s_steps(2,end)_infinite]' : ''}`}>Running semantic scan on company brain...</span>
           </div>
         );
       case 'rag_retrieved':
@@ -93,8 +93,8 @@ export default function LiveTerminal({ events = [] }) {
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
             <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
-            <AgentBadge agent="auditor" active />
-            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Evaluating code vulnerabilities against criteria...</span>
+            <AgentBadge agent="auditor" active={isLast} />
+            <span className={`text-[var(--text-primary)] italic font-medium ${isLast ? 'animate-[mechanical-blink_1s_steps(2,end)_infinite]' : ''}`}>Evaluating code vulnerabilities against criteria...</span>
           </div>
         );
       case 'auditor_thinking':
@@ -138,8 +138,8 @@ export default function LiveTerminal({ events = [] }) {
         return (
           <div key={idx} className="flex gap-2 items-start py-1">
             <span className="text-[var(--text-secondary)] font-bold shrink-0 select-none">[{timeStr}]</span>
-            <AgentBadge agent="synthesizer" active />
-            <span className="text-[var(--text-primary)] italic font-medium animate-[mechanical-blink_1s_steps(2,end)_infinite]">Compiling final results & compiling report...</span>
+            <AgentBadge agent="synthesizer" active={isLast} />
+            <span className={`text-[var(--text-primary)] italic font-medium ${isLast ? 'animate-[mechanical-blink_1s_steps(2,end)_infinite]' : ''}`}>Compiling final results & compiling report...</span>
           </div>
         );
       case 'pipeline_complete':
@@ -188,7 +188,7 @@ export default function LiveTerminal({ events = [] }) {
             TERMINAL IDLE. PASTE RAW CODE AND PRESS "EXECUTE AUDIT" TO BEGIN.
           </div>
         ) : (
-          events.map((evt, idx) => renderEvent(evt, idx))
+          events.map((evt, idx) => renderEvent(evt, idx, idx === events.length - 1))
         )}
         <div ref={terminalEndRef} />
       </div>
