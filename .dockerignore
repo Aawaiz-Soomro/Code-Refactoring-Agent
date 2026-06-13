@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Build outputs
+frontend/dist/
+backend/*.egg-info/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.git/
+.gitignore
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
